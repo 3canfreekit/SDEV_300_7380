@@ -1,0 +1,21 @@
+'''
+Created on Mar 26, 2023
+
+@author: mikeb
+'''
+import string
+import secrets
+
+# Ask the user if they would like a secure randomly generated password
+choice = input("Would you like a secure randomly generated password? (y/n): ")
+
+if choice == "y":
+    # Generate the secure password
+    password = ''.join(secrets.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + string.punctuation) for x in range (16))
+    
+    # Display the result
+    print("Your secure password is:", password)
+    print("This password contains 16 characters, with a mix of uppercase letters, digits, lowercase letters, and punctuation.")
+
+else:
+    print("No password generated.")

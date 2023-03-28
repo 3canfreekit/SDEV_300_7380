@@ -1,3 +1,10 @@
+##MICHAEL_BENNETT
+##SDEV300_7380
+##Professor_Zachery_Fair
+##Week2_assignment2_Calculate_and_Format_a_Percentage
+##3/28/2023
+
+
 # Get the user's input
 number = float(input('Enter the number you would like to take a percentage from: '))
 percentage = float(input('Enter the percentage to be taken from the number: '))

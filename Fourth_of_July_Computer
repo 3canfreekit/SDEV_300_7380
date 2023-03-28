@@ -7,6 +7,7 @@
 
 import datetime
 
+
 # Ask the user if they're looking forward to the fireworks
 response = input("Are you looking forward to the fireworks on the Fourth of July? (yes/no) ")
 
@@ -14,11 +15,7 @@ response = input("Are you looking forward to the fireworks on the Fourth of July
 now = datetime.datetime.now()
 
 # Get the date of the next Fourth of July
-fourth_of_july = datetime.datetime(now.year, 7, 4)
-
-# If the current date is after the Fourth of July, increase the year by one
-if now.date() > fourth_of_july.date():
-    fourth_of_july = datetime.datetime(now.year + 1, 7, 4)
+fourth_of_july = datetime.datetime(2025, 7, 4)
 
 # Calculate the difference between the current date and the Fourth of July
 difference = fourth_of_july - now

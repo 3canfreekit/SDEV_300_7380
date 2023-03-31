@@ -1,0 +1,18 @@
+##MICHAEL_BENNETT
+##SDEV300_7380
+##Professor_Zachery_Fair
+##Week2_assignment2_Calculate_and_Format_a_Percentage
+##3/28/2023
+
+
+# Get the user's input
+number = float(input('Enter the number you would like to take a percentage from: '))
+percentage = float(input('Enter the percentage to be taken from the number: '))
+decimals = int(input('Enter how many decimals you would like in the result: '))
+
+# Calculate the percentage
+result = (percentage/100) * number
+
+# Print the result
+print('The result of taking %' + str(percentage) + ' from ' + str(number) + ' is ' +
+    str(round(result, decimals)))

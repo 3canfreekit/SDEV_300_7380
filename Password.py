@@ -1,0 +1,79 @@
+##MICHAEL_BENNETT
+##SDEV300_7380
+##Professor_Zachery_Fair
+##Week2_assignment2_Generate_Secure_Password
+##3/28/2023
+
+
+import secrets
+import string
+
+
+
+def validate_input():
+    while True:
+        choice = input( "Would you like a secure randomly generated password? (y/n): " )
+        if choice == "y" or choice == "n":
+            return choice
+            break
+        else:
+            print( "Invalid input. Please enter y or n." )
+
+
+def prompt_length():
+    while True:
+        try:
+            length = int( input( "Please enter the length of the password: " ) )
+            if length > 0:
+                return length
+                break
+            else:
+                print( "Invalid input. Please enter a positive number." )
+        except ValueError:
+            print( "Invalid input. Please enter a positive number." )
+
+
+def prompt_characters(uppercase=None):
+    upper_case = input( "Would you like to include upper case letters (y/n): " )
+    lower_case = input( "Would you like to include lower case letters (y/n): " )
+    numbers = input( "Would you like to include numbers (y/n): " )
+    special_characters = input( "Would you like to include special characters (y/n): " )
+    return uppercase, lower_case, numbers, special_characters
+
+
+def generate_password(length, upper_case, lower_case, numbers, special_characters, secrets=None):
+    """
+
+    :param length:
+    :param upper_case:
+    :param lower_case:
+    :param numbers:
+    :param special_characters:
+    :type secrets: object
+    """
+    characters = ""
+    if upper_case == "y":
+        characters += string.ascii_uppercase
+    if lower_case == "y":
+        characters += string.ascii_lowercase
+    if numbers == "y":
+        characters += string.digits
+    if special_characters == "y":
+        characters += string.punctuation
+    password = ''.join( secrets.choice( characters ) for x in range( length ) )
+    return password
+
+
+def main():
+    choice = validate_input()
+    if choice == "y":
+        length = prompt_length()
+        upper_case, lower_case, numbers, special_characters = prompt_characters()
+        password = generate_password( length, upper_case, lower_case, numbers, special_characters, secrets )
+        print( "Your secure password is:", password )
+        print( f'This password contains {length} characters, with a mix of uppercase letters, digits, '
+               f'lowercase letters, and punctuation' )
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,185 @@
+# Capital, population and Flowers
+import sys
+from matplotlib import pyplot as plt
+from PIL import Image
+import requests
+from io import BytesIO
+import numpy as np
+
+
+# define an empty list which will carry all the data
+state = []
+# state.append inserts the contents to the list named state
+state.append ( ['Alabama', 'Montgomery', 4903185, 'Camellia','https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/camellia-flower.jpg?itok=K1xKDUI5'] )
+state.append ( ['Alaska', 'Juneau', 731545, 'Forget-Me-Not', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/Oak_leaf_hydrangea380.jpg?itok=oKb8UNHC' ] )
+state.append ( ['Arizona', 'Phoenix', 7278717, 'Suguaro Catus Blossom','https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/large/public/saguaroflowersFlickr.jpg?itok=QpFj3Opl'] )
+state.append ( ['Arkansas', 'Little Rock', 3017825, 'Apple Blossom', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/large/public/primary-images/AppletreeblossomArkansasflower.JPG?itok=Z-Q3rp1D'] )
+state.append ( ['California', 'Sacremento ', 39512223, 'Golden Poppy', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/large/public/primary-images/CAflowerCaliforniaPoppy.jpg?itok=Q5Q8X3LE'] )
+state.append ( ['Colorado', 'Denver', 5758736, 'Mountain Columbine', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/Colorado_columbine2.jpg?itok=3bfYnk5Y'] )
+state.append ( ['Connecticut', 'Hatford', 3565287, 'Mountain Laurel', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/Mountain-Laural-flowers2.jpg?itok=b7tlfk4G'] )
+state.append ( ['Delaware', 'Dover', 973764, 'Peach Blossom', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/peachblossomspeachflowers.jpg?itok=Lx-fzlgl'] )
+state.append ( ['Florida', 'Tallahassee', 21477737, 'Orange Blossom', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/OrangeBlossomsFloridaFlower.jpg?itok=SK-Tp-rH'] )
+state.append ( ['Georgia', 'Atlanta', 10617423, 'Cherokee Rose', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/CherokeeRoseFlower.jpg?itok=TKWxpzcw'] )
+state.append ( ['Hawaii', 'Honolulu', 415872, 'Red Hibiscus', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/yellowhibiscusPuaAloalo.jpg?itok=Y2aYqLKY'] )
+state.append ( ['Idaho', 'Boise', 1787065, 'Syringa', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/syringaPhiladelphuslewisiiflower.jpg?itok=BKOaOXs0'] )
+state.append ( ['Illinois', 'Springfield', 12671821, 'Violet', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/singlebluevioletflower.jpg?itok=8i1uQHwg'] )
+state.append ( ['Indiana', 'Indianaplois', 6732219, 'Peony', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/PeonyPaeoniaflowers.jpg?itok=IrFIQ9ZF'] )
+state.append ( ['Iowa', 'Des Moines', 3155070, 'Wild Rose', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/WildPrairieRose.jpg?itok=zyo0qIMG'] )
+state.append ( ['Kansas', 'Topeka', 2913314, 'Sunflower', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/native-sunflowers.jpg?itok=PB8Qq-IC'] )
+state.append ( ['Kentucky', 'Frankfort', 4467673, 'Goldenrod', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/stateflowergoldenrod-bloom.jpg?itok=CCLZ4eiV'] )
+state.append ( ['Louisiana', 'Baton Rouge', 4648794, 'Magnolia', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/LouisianaIrisWildflower-0.jpg?itok=lOKBHACo'] )
+state.append ( ['Maine', 'Augusta', 1344212, 'Pine Cone & Tassel','https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/whitepinemalecones.jpg?itok=cscy757F'] )
+state.append ( ['Tennessee', 'Nashville', 6833174, 'Iris', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/passionflowerwildflower2.jpg?itok=c5CmwPJt'] )
+state.append ( ['Maryland', 'Annapolis', 6045680, 'Black-eyed Susan', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/FlowerMDBlack-eyedSusan.jpg?itok=I8jYSvFl'] )
+state.append ( ['Deleware', 'Dover', 973764, 'Peach Blossom', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/peachblossomspeachflowers.jpg?itok=Lx-fzlgl'] )
+state.append ( ['Massachusettes', 'Boston', 6949503, 'Mayflower', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/MayflowerTrailingArbutus.jpg?itok=uIQd8O6F'] )
+state.append ( ['Rhode Island', 'Providence', 1059361, 'Violet', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/violetsflowers.jpg?itok=KNMrrLfu'] )
+state.append ( ['Minniesota', 'St.Paul', 5639632, 'Lady-Slipper', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/pinkwhiteladysslipperflower1.jpg?itok=LGYZFl26'] )
+state.append ( ['Mississippi', 'Jackson', 2976149, 'Magnolia', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/CoreopsisWildflower1-01.jpg?itok=HPK2l6yQ'] )
+state.append ( ['Missouri', 'Jefferson City', 6137428, 'Hawthorne', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/hawthornflowersblossoms1.jpg?itok=LOrlsJ3L'] )
+state.append ( ['Michigan', 'Lansing', 9986857, 'Apple Blossom', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/appleblossombeauty.jpg?itok=HxWn6VHl'] )
+state.append ( ['Montana', 'Helena', 1068778, 'Bitterroot', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/bitterrootfloweremblem.jpg?itok=SnCwy78x'] )
+state.append ( ['Nebraska', 'Lincoln', 1934408, 'Goldenrod', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/goldenrodflowersyellow4.jpg?itok=6X5qpm4c'] )
+state.append ( ['Nevada', 'Carson City', 3080156, 'Sagebrush', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/Nevada-Sagebrush-Artemisia-tridentata.jpg?itok=ij6RMnom'] )
+state.append ( ['New Hampshire', 'Concord', 1359711, 'Purple Lilac', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/NH-pinkLadysSlipperFlower.jpg?itok=tppHBWs8'] )
+state.append ( ['Vermont', 'Montpelier', 623989, 'Red Clover', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/redcloverstateflowerWV.jpg?itok=wvnkPA4C'] )
+state.append ( ['New Jersey', 'Trenton', 8882190, 'Violet', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/wood-violet.jpg?itok=IJ0ft_8r'] )
+state.append ( ['New Mexico', 'Santa Fe', 2096829, 'Yucca', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/YuccaFlowersclose.jpg?itok=jCUN8toc'] )
+state.append ( ['New York', 'Albany', 19453561, 'Rose', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/redrosebeautystateflowerNY.jpg?itok=LDcB_Vc_'] )
+state.append ( ['North Carolina', 'Raleigh', 10488084, 'Flowering Dogwood', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/floweringdogwoodflowers2.jpg?itok=p_1PGcNk'] )
+state.append ( ['Wyoming', 'Cheyenne', 78759, 'Indian Paintbrush', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/indianpaintbrushWYflower.jpg?itok=ClQHPA55'] )
+state.append ( ['North Dakota', 'Bismark', 762062, 'Prairie Rose', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/flowerwildprairierose.jpg?itok=j5Retaxz'] )
+state.append ( ['Ohio', 'Columbus', 11689100, 'Scalet Carnation', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/redcarnationOhioflower.jpg?itok=oCdw9u6V'] )
+state.append ( ['Oklahoma', 'Oklahoma City', 3956971, 'Mistletoe', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/Indian-blanket-Gaillardia-pulchella.jpg?itok=_7eai2t7'] )
+state.append ( ['Oregon', 'Salem', 4217737, 'Oregon Grape', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/Oregongrapeflowers2.jpg?itok=lVSJoqCE'] )
+state.append ( ['Pennsylvania', 'Harrisburg', 12801989, 'Mountain Laurel', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/Mt_Laurel_Kalmia_Latifolia.jpg?itok=8VhW2Sms'] )
+state.append ( ['South Carolina', 'Columbia', 5148714, 'Yellow Jessamine','https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/CarolinaYellowJessamine101.jpg?itok=1tgcX6mj'] )
+state.append ( ['South Dakota', 'Pierre', 88465, 'Pasque flower', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/Pasqueflower-03.jpg?itok=vMlGt_qW'] )
+state.append ( ['Texas', 'Austin', 28995881, 'Bluebonnet', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/Texas-dawn-waterlily-Nymphaea.jpg?itok=RuViBaR-'] )
+state.append ( ['Utah', 'Salt Lake City', 3202985, 'Sego Lily', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/SegoLily.jpg?itok=Hxt3DOTq'] )
+state.append ( ['Virginia', 'Richmond', 8535519, 'Dogwood', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/floweringDogwoodSpring.jpg?itok=DFuNFYgS'] )
+state.append ( ['Washington', 'Olympia', 7614893, 'Coast Rhododendron', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/flower_rhododendronWeb.jpg?itok=0Xl911Zf'] )
+state.append ( ['West Virginia', 'Charleston', 1792147, 'Rhododendron', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/primary-images/rhododendronWVstateflower.jpg?itok=7lJaeqWT'] )
+state.append ( ['Wisconsin', 'Madison', 5822434, 'Wood Violet', 'https://statesymbolsusa.org/sites/statesymbolsusa.org/files/styles/symbol_thumbnail__medium/public/wood-violet.jpg?itok=IJ0ft_8r'] )
+state.sort()
+
+
+def state_list():
+    # Return list of states
+    pass
+
+
+# def display_sorted_states():
+# toString
+# Display all U.S. States in Alphabetical order along with the Capital, State Population, and Flower
+
+
+def display_sorted_states():
+  # toString
+  # Display all U.S. States in Alphabetical order along with the Capital, State Population, and Flower
+  print ( "State  ", " Capital   ", " Population   ", " Flower  " ),
+  for i in range (0, len(state)):
+    print(state[i][0], state[i][1], state[i][2], state[i][3])
+    # https://statesymbolsusa.org/symbol/alabama/state-flower/camellia
+
+
+pass
+
+
+
+def search_state_display():
+    state_name = input ( 'Input your State:  ' )
+    print ( "Statet", " Capitalt", " Populationt", " Flower" )
+    for i in range (0, 51):
+        if state_name == (state[i][0]):
+            response = requests.get ( (state[i][4]) )
+            img = Image.open ( BytesIO ( response.content ) )
+            print ( state[i][0], "t", state[i][1], "t", state[i][2], "t", state[i][3], img.show () )
+
+
+        if i == 51: print("Invalid State Name")
+    pass
+
+
+
+class Maryland ( object ):
+    pass
+
+
+
+def display_bar_graph_top5():
+    # split string by space character
+    # convert string array to int, also making list from them
+    # return 5 max ( state[i][2] )
+
+
+    for i in range ( 0, len ( state ) ):
+        numbers = list ( map ( int, state[i][2] ) )
+        print (max ( numbers ))
+        plt.plot ( [state[i][2], state[i][2], state[i][2], state[i][2], state[i][2]] )
+        plt.ylabel ( 'State Population' )
+        plt.xlabel (state[i][2])
+        plt.show ()
+        #  Bar graph of the top 5 populated States showing their overall population
+    pass
+
+
+
+def update_population_for_State(state):
+    # Update the overall state population for a specific state.
+    pass
+
+
+
+def state_population(state):
+    population = state.stateString ( 2 ),
+    pass
+
+
+
+user_input = 1
+while True:
+    print (
+        'n1. Display all U.S. States in Alphabetical order along with the Capital, State Population, and Flower ' ),
+    print (
+        '2. Search for a specific state and display the appropriate Capital name, State Population, and an image of',
+        'the associated State Flower. ' ),
+    print ( '3. Provide a Bar graph of the top 5 populated States showing their overall population ' ),
+    print ( '4. Update the overall state population for a specific state. ' ),
+    print ( '5. Exit the program ' ),
+    user_input = int ( input ( 'nEnter choices : ' ) )
+    # add check for int between 1 and 5 else message and return to menu
+    # if user_input ( 0> or 5< ), then
+
+
+    if user_input == 1:
+        # Display all U.S. States in Alphabetical order along with the Capital, State Population, and Flower
+        display_sorted_states ()
+
+
+    elif user_input == 2:
+        # Search for a specific state and display the appropriate Capital name, State Population, and an image of the
+        # associated State Flower.
+        # using this would be cool us.states.STATES to check for valid state name
+        search_state_display ()
+
+
+    elif user_input == 3:
+        # Bar graph of the top 5 populated States showing their overall population
+    
+    elif user_input == 4:
+        # Update the overall state population for a specific state.
+        display_bar_graph_top5 ()
+        state_name = input ( 'nEnter State Name:  ' )
+        bird_name = input ( 'nEnter State population:  ' )
+        update_population_for_State ( state_name )
+
+
+    elif user_input == 5:
+        # Exit the program
+        print("Good Bye!!")
+        sys.exit ()
+
+
+    elif user_input >= 6:
+        print('Please only enter a value between 1 and 5')
